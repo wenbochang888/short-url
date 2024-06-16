@@ -14,6 +14,8 @@ import java.time.LocalDateTime;
 @Data
 public class ShortUrl {
 
+	private long id;
+
 	@TableField("lurl")
 	private String lUrl;
 
@@ -21,4 +23,10 @@ public class ShortUrl {
 	private String sUrl;
 
 	private LocalDateTime gmtCreate;
+
+
+	public ShortUrl(String lUrl, String sUrl) {
+		this.lUrl = lUrl;
+		this.sUrl = sUrl;
+	}
 }
