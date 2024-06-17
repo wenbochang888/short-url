@@ -80,6 +80,6 @@ public class ShortUrService {
 	}
 
 	private String getLongUrlRandom(String longUrl) {
-		return RandomUtil.randomString(5) + longUrl + RandomUtil.randomString(5);
+		return RandomUtil.randomString(5) + longUrl + RandomUtil.randomString(5);  // 解决冲突多的问题，随机字符串
 	}
 }
