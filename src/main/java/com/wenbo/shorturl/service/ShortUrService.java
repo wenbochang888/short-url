@@ -1,11 +1,12 @@
 package com.wenbo.shorturl.service;
 
-import cn.hutool.cache.impl.LRUCache;
 import cn.hutool.core.codec.Base62;
 import cn.hutool.core.util.HashUtil;
+import cn.hutool.core.util.RandomUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.wenbo.shorturl.dao.ShortUrlDAO;
+import com.wenbo.shorturl.modle.MapConstants;
 import com.wenbo.shorturl.modle.ShortUrl;
 import com.wenbo.shorturl.utils.CacheUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -17,15 +18,6 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 public class ShortUrService {
-	// hash冲突Map
-	private static LRUCache<String, String> hashFailMap = new LRUCache<>(100);
-
-	// 防止同一个longUrl 短时间生成不同的shortUrl
-	private static LRUCache<String, String> longCache = new LRUCache<>(1000);
-
-	// 添加缓存，加快热点数据查询速度
-	private static LRUCache<String, String> shortCache = new LRUCache<>(1000);
-
 
 	@Autowired
 	private ShortUrlDAO shortUrlDAO;
@@ -35,12 +27,12 @@ public class ShortUrService {
 			throw new RuntimeException("longUrl 不能为空");
 		}
 
-		String shortUrl = CacheUtils.get(longCache, longUrl);
+		String shortUrl = CacheUtils.get(MapConstants.longCache, longUrl);
 		if (StringUtils.isNotEmpty(shortUrl)) {
 			return shortUrl;
 		}
 
-		return getShortUrl(longUrl);
+		return getShortUrl(longUrl, getLongUrlRandom(longUrl));
 	}
 
 	public String getLongUrl(String shortUrl) {
@@ -48,18 +40,18 @@ public class ShortUrService {
 			throw new RuntimeException("shortUrl 不能为空");
 		}
 
-		String longUrl = CacheUtils.get(shortCache, shortUrl);
+		String longUrl = CacheUtils.get(MapConstants.shortCache, shortUrl);
 		if (StringUtils.isNotEmpty(longUrl)) {
 			return longUrl;
 		}
 
 		LambdaQueryWrapper<ShortUrl> wrapper = new QueryWrapper<ShortUrl>().lambda().eq(ShortUrl::getSUrl, shortUrl);
 		ShortUrl url = shortUrlDAO.selectOne(wrapper);
-		CacheUtils.put(shortCache, shortUrl, url.getLUrl());
+		CacheUtils.put(MapConstants.shortCache, shortUrl, url.getLUrl());
 		return url.getLUrl();
 	}
 
-	private String getShortUrl(String longUrl) {
+	private String getShortUrl(String rawUrl, String longUrl) {
 		int hash = HashUtil.murmur32(longUrl.getBytes());
 		String base62 = Base62.encode(hash + "");
 		log.info("longUrl = {}, hash = {}, base62 = {}", longUrl, hash, base62);
@@ -68,17 +60,17 @@ public class ShortUrService {
 		}
 
 		String shortUrl = StringUtils.substring(base62, 0, 6);
-		ShortUrl url = new ShortUrl(longUrl, shortUrl);
+		ShortUrl url = new ShortUrl(rawUrl, shortUrl);
 		try {
-			int insert = shortUrlDAO.insert(url);
+			int insert = shortUrlDAO.insert(url); // 这里进行分库分表 提高性能
 			if (insert == 1) {
-				CacheUtils.put(longCache, longUrl, shortUrl);
+				CacheUtils.put(MapConstants.longCache, rawUrl, shortUrl);
 			}
-		} catch (DuplicateKeyException e) {
+		} catch (DuplicateKeyException  e) {
 			// Hash冲突
-			log.warn("hash冲突 触发唯一索引 longUrl = {}, shortUrl = {}, e = {}", longUrl, shortUrl, e.getMessage(), e);
-			CacheUtils.put(hashFailMap, longUrl, shortUrl);
-			return getShortUrl(shortUrl);
+			log.warn("hash冲突 触发唯一索引 rawUrl = {}, longUrl = {}, shortUrl = {}, e = {}", rawUrl, longUrl, shortUrl, e.getMessage(), e);
+			CacheUtils.put(MapConstants.hashFailMap, rawUrl, shortUrl);
+			return getShortUrl(rawUrl, getLongUrlRandom(shortUrl));
 		} catch (Exception e) {
 			log.error("未知错误 e = {}", e.getMessage(), e);
 			throw new RuntimeException("msg = " + e.getMessage());
@@ -86,25 +78,8 @@ public class ShortUrService {
 
 		return shortUrl;
 	}
+
+	private String getLongUrlRandom(String longUrl) {
+		return longUrl + RandomUtil.randomString(5);
+	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
