@@ -104,7 +104,6 @@
                 <version>${spring-boot.version}</version>
                 <configuration>
                     <mainClass>com.wenbo.shorturl.ShortUrlApplication</mainClass>
-                    <skip>true</skip>
                 </configuration>
                 <executions>
                     <execution>
