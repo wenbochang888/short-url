@@ -1,14 +1,13 @@
 package com.wenbo.shorturl;
 
-import org.apache.commons.lang3.StringUtils;
+import java.text.DecimalFormat;
 
 public class Main {
 	public static void main(String[] args) {
 
-		String base62 = "90";
+		DecimalFormat decimalFormat = new DecimalFormat("0.##############################");
 
-
-		System.out.println(StringUtils.substring(base62, 0, 6));
-		System.out.println(StringUtils.substring(base62, -6));
+		System.out.println(decimalFormat.format(Math.pow(2, 32) - 1));
+		System.out.println(decimalFormat.format(Math.pow(2, 64) - 1));
 	}
 }

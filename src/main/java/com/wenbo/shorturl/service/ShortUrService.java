@@ -52,14 +52,14 @@ public class ShortUrService {
 	}
 
 	private String getShortUrl(String rawUrl, String longUrl) {
-		int hash = HashUtil.murmur32(longUrl.getBytes());
+		long hash = HashUtil.murmur64(longUrl.getBytes());
 		String base62 = Base62.encode(hash + "");
 		log.info("longUrl = {}, hash = {}, base62 = {}", longUrl, hash, base62);
 		if (StringUtils.isEmpty(base62)) {
 			throw new RuntimeException("hash 算法有误");
 		}
 
-		String shortUrl = StringUtils.substring(base62, -6);  // 感觉冲突有点多，取后六位
+		String shortUrl = StringUtils.substring(base62, 6);
 		ShortUrl url = new ShortUrl(rawUrl, shortUrl);
 		try {
 			int insert = shortUrlDAO.insert(url); // 这里进行分库分表 提高性能
@@ -80,6 +80,6 @@ public class ShortUrService {
 	}
 
 	private String getLongUrlRandom(String longUrl) {
-		return RandomUtil.randomString(5) + longUrl + RandomUtil.randomString(5);  // 解决冲突多的问题，随机字符串
+		return longUrl + RandomUtil.randomString(6);  // 解决冲突多的问题，随机字符串
 	}
 }
