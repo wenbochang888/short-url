@@ -54,7 +54,7 @@ public class ShortUrService {
 	private String getShortUrl(String rawUrl, String longUrl) {
 		long hash = HashUtil.murmur64(longUrl.getBytes());
 		String base62 = Base62.encode(hash + "");
-		log.info("longUrl = {}, hash = {}, base62 = {}", longUrl, hash, base62);
+		// log.info("longUrl = {}, hash = {}, base62 = {}", longUrl, hash, base62);
 		if (StringUtils.isEmpty(base62)) {
 			throw new RuntimeException("hash 算法有误");
 		}
