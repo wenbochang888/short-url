@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Short URL Service</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="text-center">Short URL Service</h1>
+    <div class="row mt-4">
+        <div class="col-md-6 offset-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">Generate Short URL</h2>
+                    <form action="#" th:action="@{/url/generate}" method="post">
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="longUrl" placeholder="Enter long URL" th:value="${longUrl}" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Generate</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-md-6 offset-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">Get Long URL</h2>
+                    <form action="#" th:action="@{/url/get}" method="get">
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="shortUrl" placeholder="Enter short URL" th:value="${shortUrl}" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Get</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

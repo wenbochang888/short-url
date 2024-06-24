@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Short URL Service</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+  <h1 class="text-center">Short URL Service</h1>
+  <div class="row mt-4">
+    <div class="col-md-6 offset-md-3">
+      <div class="card">
+        <div class="card-body">
+          <h2 class="card-title">Result</h2>
+          <p th:utext="${result}"></p> <!-- 使用th:utext来解析HTML -->
+          <form action="/" method="get">
+            <input type="hidden" name="longUrl" th:value="${longUrl}">
+            <input type="hidden" name="shortUrl" th:value="${shortUrl}">
+            <button type="submit" class="btn btn-primary btn-block">Back</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

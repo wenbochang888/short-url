@@ -19,12 +19,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class ShortUrService {
 
+	private static final String DOMAIN = "https://www.gdufe888.top/";
+
 	@Autowired
 	private ShortUrlDAO shortUrlDAO;
 
 	public String generateShortUrl(String longUrl) {
-		if (StringUtils.isEmpty(longUrl)) {
-			throw new RuntimeException("longUrl 不能为空");
+		if (StringUtils.isEmpty(longUrl) || longUrl.length() > 450) {
+			return "longUrl 太长 or 不能为空";
 		}
 
 		String shortUrl = CacheUtils.get(MapConstants.longCache, longUrl);
@@ -37,7 +39,7 @@ public class ShortUrService {
 
 	public String getLongUrl(String shortUrl) {
 		if (StringUtils.isEmpty(shortUrl)) {
-			throw new RuntimeException("shortUrl 不能为空");
+			return "shortUrl 不能为空";
 		}
 
 		String longUrl = CacheUtils.get(MapConstants.shortCache, shortUrl);
@@ -47,6 +49,10 @@ public class ShortUrService {
 
 		LambdaQueryWrapper<ShortUrl> wrapper = new QueryWrapper<ShortUrl>().lambda().eq(ShortUrl::getSUrl, shortUrl);
 		ShortUrl url = shortUrlDAO.selectOne(wrapper);
+		if (url == null) {
+			return "找不到对应的长链接";
+		}
+
 		CacheUtils.put(MapConstants.shortCache, shortUrl, url.getLUrl());
 		return url.getLUrl();
 	}
@@ -59,7 +65,7 @@ public class ShortUrService {
 			throw new RuntimeException("hash 算法有误");
 		}
 
-		String shortUrl = StringUtils.substring(base62, 6);
+		String shortUrl = DOMAIN + StringUtils.substring(base62, -6);
 		ShortUrl url = new ShortUrl(rawUrl, shortUrl);
 		try {
 			int insert = shortUrlDAO.insert(url); // 这里进行分库分表 提高性能
