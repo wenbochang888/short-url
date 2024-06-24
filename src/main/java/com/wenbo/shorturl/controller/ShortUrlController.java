@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("url")
 public class ShortUrlController {
 
+	private static final String DOMAIN = "https://www.gdufe888.top/short/";
+
 	@Autowired
 	private ShortUrService shortUrService;
 
@@ -20,7 +22,7 @@ public class ShortUrlController {
 		String shortUrl = shortUrService.generateShortUrl(longUrl);
 		log.info("longUrl = {}, shortUrl = {}", longUrl, shortUrl);
 
-		model.addAttribute("result", "Short URL: <a href='" + shortUrl + "' target='_blank'>" + shortUrl + "</a>");
+		model.addAttribute("result", "Short URL: <a href='" + DOMAIN + shortUrl + "' target='_blank'>" + shortUrl + "</a>");
 		model.addAttribute("longUrl", longUrl);
 		model.addAttribute("shortUrl", shortUrl);
 

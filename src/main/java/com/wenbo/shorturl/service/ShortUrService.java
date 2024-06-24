@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ShortUrService {
 
-	private static final String DOMAIN = "https://www.gdufe888.top/";
+	private static final String DOMAIN = "";
 
 	@Autowired
 	private ShortUrlDAO shortUrlDAO;
