@@ -15,9 +15,7 @@ public class ShortUrlController {
 	@Autowired
 	private ShortUrService shortUrService;
 
-
 	@RequestMapping("/generate")
-	//@ResponseBody
 	public String generateShortUrl(String longUrl, Model model) {
 		String shortUrl = shortUrService.generateShortUrl(longUrl);
 		log.info("longUrl = {}, shortUrl = {}", longUrl, shortUrl);
@@ -30,7 +28,6 @@ public class ShortUrlController {
 	}
 
 	@RequestMapping("/get")
-	//@ResponseBody
 	public String getLongUrl(String shortUrl, Model model) {
 		String longUrl = shortUrService.getLongUrl(shortUrl);
 		log.info("shortUrl = {}, longUrl = {}", shortUrl, longUrl);

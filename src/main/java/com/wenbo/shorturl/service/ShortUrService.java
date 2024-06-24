@@ -25,8 +25,8 @@ public class ShortUrService {
 	private ShortUrlDAO shortUrlDAO;
 
 	public String generateShortUrl(String longUrl) {
-		if (StringUtils.isEmpty(longUrl)) {
-			throw new RuntimeException("longUrl 不能为空");
+		if (StringUtils.isEmpty(longUrl) || longUrl.length() > 450) {
+			return "longUrl 太长 or 不能为空";
 		}
 
 		String shortUrl = CacheUtils.get(MapConstants.longCache, longUrl);
@@ -39,7 +39,7 @@ public class ShortUrService {
 
 	public String getLongUrl(String shortUrl) {
 		if (StringUtils.isEmpty(shortUrl)) {
-			throw new RuntimeException("shortUrl 不能为空");
+			return "shortUrl 不能为空";
 		}
 
 		String longUrl = CacheUtils.get(MapConstants.shortCache, shortUrl);
@@ -49,6 +49,10 @@ public class ShortUrService {
 
 		LambdaQueryWrapper<ShortUrl> wrapper = new QueryWrapper<ShortUrl>().lambda().eq(ShortUrl::getSUrl, shortUrl);
 		ShortUrl url = shortUrlDAO.selectOne(wrapper);
+		if (url == null) {
+			return "找不到对应的长链接";
+		}
+
 		CacheUtils.put(MapConstants.shortCache, shortUrl, url.getLUrl());
 		return url.getLUrl();
 	}
