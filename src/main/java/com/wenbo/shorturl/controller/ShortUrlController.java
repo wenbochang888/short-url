@@ -12,8 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("url")
 public class ShortUrlController {
 
-	private static final String DOMAIN = "https://www.gdufe888.top/short/";
-
+	private static final String DOMAIN = "http://101.33.233.214:8999/short/";
 	@Autowired
 	private ShortUrService shortUrService;
 
