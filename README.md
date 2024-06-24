@@ -5,6 +5,15 @@
 4. 补充mysql用户名密码[application.properties](src%2Fmain%2Fresources%2Fapplication.properties)
 5. 请求ShortUrlController 生成短链，以及获取长链的接口即可
 
+# [点我 - 体验地址](http://101.33.233.214:8999/)
+前端页面完全是用GPT生成的，再次感慨GPT 人工智能的强大
+
+
+ ![示例图片](src/main/resources/img/1.png)
+ ![示例图片](src/main/resources/img/4.png)
+ ![示例图片](src/main/resources/img/2.png)
+ ![示例图片](src/main/resources/img/3.png)
+
 # 前言
 前几天面试遇到的，感觉比较有趣。第一次面试遇到考**架构设计**相关的题目，挺新奇的，开始向国外大厂靠拢了，比天天问八股文好太多了，工作5年左右的，问八股文，纯纯的不负责任偷懒行为。
 
