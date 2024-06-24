@@ -6,7 +6,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
@@ -18,10 +21,13 @@ public class BasicController {
 	@Autowired
 	private ShortUrlDAO shortUrlDAO;
 
-	@RequestMapping("")
-	@ResponseBody
-	public String hello() {
-		return "Hello World";
+	@GetMapping("/")
+	public String index(@RequestParam(value = "longUrl", required = false) String longUrl,
+						@RequestParam(value = "shortUrl", required = false) String shortUrl,
+						Model model) {
+		model.addAttribute("longUrl", longUrl);
+		model.addAttribute("shortUrl", shortUrl);
+		return "index";
 	}
 
 

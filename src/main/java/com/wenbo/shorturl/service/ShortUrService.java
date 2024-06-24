@@ -19,6 +19,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class ShortUrService {
 
+	private static final String DOMAIN = "https://www.gdufe888.top/";
+
 	@Autowired
 	private ShortUrlDAO shortUrlDAO;
 
@@ -59,7 +61,7 @@ public class ShortUrService {
 			throw new RuntimeException("hash 算法有误");
 		}
 
-		String shortUrl = StringUtils.substring(base62, 6);
+		String shortUrl = DOMAIN + StringUtils.substring(base62, -6);
 		ShortUrl url = new ShortUrl(rawUrl, shortUrl);
 		try {
 			int insert = shortUrlDAO.insert(url); // 这里进行分库分表 提高性能

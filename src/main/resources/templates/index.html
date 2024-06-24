@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Short URL Service</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <h1>Short URL Service</h1>
+    <div class="form-container">
+        <h2>Generate Short URL</h2>
+        <form action="#" th:action="@{/url/generate}" method="post">
+            <input type="text" name="longUrl" placeholder="Enter long URL" th:value="${longUrl}" required>
+            <button type="submit">Generate</button>
+        </form>
+    </div>
+    <div class="form-container">
+        <h2>Get Long URL</h2>
+        <form action="#" th:action="@{/url/get}" method="get">
+            <input type="text" name="shortUrl" placeholder="Enter short URL" th:value="${shortUrl}" required>
+            <button type="submit">Get</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
