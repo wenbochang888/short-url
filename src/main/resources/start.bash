@@ -1,4 +1,4 @@
-
+mvn clean install -U
 
 ps -ef | grep short
 
