@@ -162,6 +162,8 @@ public String getLongUrl(String shortUrl) {
 # 最后
 本文对短链设计方案作了详细地剖析，旨在给大家提供几种不同的短链设计思路，文中涉及到挺多的技术细节。比如murmur64 hash算法，base62，LRU，以及为什么选择mysql，而不是redis等等。文中没有展开讲，建议大家回头可以去再详细了解一下，同时也希望大家有空，可以自己动手实现一套短链服务，一定会有不小的收获。
 
+# 其他语言
+Go语言实现：[short-url-go](https://github.com/7836246/short-url-go)   感谢 [Xu Kang的贡献](https://github.com/7836246)  
 
 
 
