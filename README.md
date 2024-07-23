@@ -166,7 +166,8 @@ public String getLongUrl(String shortUrl) {
 Go语言实现：[short-url-go](https://github.com/7836246/short-url-go)   感谢 [Xu Kang的贡献](https://github.com/7836246)  
 
 
-
+# Stargazers over time
+[![Stargazers over time](https://starchart.cc/wenbochang888/short-url.svg?variant=adaptive)](https://starchart.cc/wenbochang888/short-url)
 
 
 
