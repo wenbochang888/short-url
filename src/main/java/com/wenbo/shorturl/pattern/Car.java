@@ -1,6 +1,9 @@
 package com.wenbo.shorturl.pattern;
 
-public class Car {
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+public class Car implements Cloneable {
 
 	// 品牌
 	private String branch;
@@ -34,5 +37,16 @@ public class Car {
 
 	public void setPrice(double price) {
 		this.price = price;
+	}
+
+	@Override
+	public Car clone() {
+		try {
+			Car copy = (Car) super.clone();
+			return copy;
+		} catch (Exception e) {
+			log.warn("e = {}", e.getMessage(), e);
+			return null;
+		}
 	}
 }
