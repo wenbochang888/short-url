@@ -13,8 +13,8 @@ public abstract class AbstractHandler implements Handler {
 		try {
 			preHandler(animal);
 			boolean res = onHandler(animal);
-			// 如果return false，则继续执行下一个handler
-			if (!res && nextHandler != null) {
+			// 如果return true，则继续执行下一个handler
+			if (res && nextHandler != null) {
 				return nextHandler.handler(animal);
 			}
 		} catch (Exception e) {
@@ -22,7 +22,7 @@ public abstract class AbstractHandler implements Handler {
 		} finally {
 			postHandler(animal);
 		}
-		return true;
+		return false;
 	}
 
 

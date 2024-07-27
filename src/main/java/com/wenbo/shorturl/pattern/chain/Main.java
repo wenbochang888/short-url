@@ -1,5 +1,6 @@
 package com.wenbo.shorturl.pattern.chain;
 
+import com.wenbo.shorturl.pattern.Cat;
 import com.wenbo.shorturl.pattern.Dog;
 
 public class Main {
@@ -12,7 +13,7 @@ public class Main {
 		catHandler.setNextHandler(dogHandler);
 
 
-		//catHandler.handler(new Cat());
+		catHandler.handler(new Cat());
 		System.out.println("==============");
 		catHandler.handler(new Dog());
 	}

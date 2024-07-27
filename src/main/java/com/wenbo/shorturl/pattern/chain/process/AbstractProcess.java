@@ -20,7 +20,7 @@ public abstract class AbstractProcess implements BaseProcess {
 		// 3. 设置下一个handler
 		catHandler.setNextHandler(dogHandler);
 
-		handler = catHandler;
+		setHandler(catHandler);
 	}
 
 	public Handler getHandler() {
