@@ -6,4 +6,6 @@ package com.wenbo.shorturl.pattern;
  */
 public interface Animal {
     void speak();
+
+    String getType();
 }
