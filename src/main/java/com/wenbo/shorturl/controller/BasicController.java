@@ -2,6 +2,8 @@ package com.wenbo.shorturl.controller;
 
 import com.wenbo.shorturl.dao.ShortUrlDAO;
 import com.wenbo.shorturl.modle.ShortUrl;
+import com.wenbo.shorturl.pattern.CommonRequestParam;
+import com.wenbo.shorturl.pattern.command.AbstractCommand.CommandInvoker;
 import com.wenbo.shorturl.service.ShortUrService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +42,17 @@ public class BasicController {
 		} else {
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 		}
+	}
+
+	@Autowired
+	private CommandInvoker processInvoker;
+
+
+	@ResponseBody
+	@RequestMapping("/base/get")
+	public String getLongUrl2(String shortUrl) {
+		CommonRequestParam request = new CommonRequestParam(shortUrl);
+		return processInvoker.executeCommand(request, () -> shortUrService.getLongUrl(request.getCommon()));
 	}
 
 
