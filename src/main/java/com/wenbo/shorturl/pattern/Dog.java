@@ -1,5 +1,6 @@
 package com.wenbo.shorturl.pattern;
 
+import com.wenbo.shorturl.pattern.visitor.AnimalVisitor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -16,5 +17,10 @@ public class Dog implements Animal {
     @Override
     public String getType() {
         return "Dog";
+    }
+
+    @Override
+    public void accept(AnimalVisitor visitor) {
+        visitor.visit(this);
     }
 }
