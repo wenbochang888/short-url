@@ -37,14 +37,14 @@ public class TestBarPush {
 	@Scheduled(cron = "0 0 7 * * ?")
 	public void cron() {
 		// wenbo
-		postUrl("PCNjVYaRvRGoaoqAnyGkPi");
+		postUrl("PCNjVYaRvRGoaoqAnyGkPi", "silence");
 
 		// 鸡腿
-		postUrl("PJFPc8UerojeqV8VJej7JU");
+		postUrl("PJFPc8UerojeqV8VJej7JU", "wenbo");
 	}
 
 
-	public void postUrl(String deviceKey) {
+	public void postUrl(String deviceKey, String sound) {
 		String url = "https://api.day.app/push";
 
 		// 设置请求Header
@@ -54,7 +54,7 @@ public class TestBarPush {
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("device_key", deviceKey);
 		jsonObject.addProperty("title", "我亲爱的小鸡腿");
-		jsonObject.addProperty("sound", "wenbo.caf");
+		jsonObject.addProperty("sound", sound + ".caf");
 		jsonObject.addProperty("icon", "https://images.cnblogs.com/cnblogs_com/wenbochang/1203185/o_240829142118_IMG_4358.jpg");
 		jsonObject.addProperty("body", getBodyStr(getWeather()));
 
